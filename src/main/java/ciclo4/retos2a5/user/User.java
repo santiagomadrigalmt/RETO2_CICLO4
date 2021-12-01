@@ -1,6 +1,5 @@
 package ciclo4.retos2a5.user;
 
-import java.util.Date;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

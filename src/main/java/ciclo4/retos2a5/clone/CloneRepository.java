@@ -52,6 +52,16 @@ public class CloneRepository
     public void deleteClone(Clone clone)
     {
        repositoryInterface.delete(clone);
-    }    
+    }
+    
+    /**
+    * 
+    * 
+     * @param id
+    */
+    public void deleteCloneById(Integer id)
+    {
+       repositoryInterface.deleteById(id);
+    }     
     
 }

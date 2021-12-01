@@ -25,3 +25,9 @@ h1
     margin-right:       auto;
     padding-top:        30px;  
 }
+
+.modal-content
+{
+    color:              #fff;
+    background-color:   #282D3C;
+}

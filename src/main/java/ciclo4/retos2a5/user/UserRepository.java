@@ -97,4 +97,14 @@ public class UserRepository
        repositoryInterface.delete(user);
     }
     
+    /**
+    * 
+    * 
+     * @param id
+    */    
+    public void deleteUserById(Integer id)
+    { 
+        repositoryInterface.deleteById(id);
+    }
+    
 }

@@ -16,6 +16,140 @@
   </head>
 
   <body>
+    <!-- Update User Modal -->
+    <div
+      class="modal fade"
+      id="modalContainer"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+
+            <form id="updateUserForm" class="formulario">
+              <label for="updateUserId">ID:</label>
+              <input
+                id="updateUserId"
+                name="updateUserId"
+                class="form-control"
+                type="number"
+                min="1"
+                max="1000"
+                required
+                disabled
+              />
+              <br />
+              <label for="updateUserName">Nombre del usuario:</label>
+              <input
+                id="updateUserName"
+                name="updateUserName"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="80"
+                required
+              />
+              <br />
+              <label for="updateUserType">Tipo de usuario:</label>
+              <select
+                id="updateUserType"
+                name="updateUserType"
+                class="form-select"
+                required
+              >
+                <option selected disabled>Selecciona el tipo de usuario</option>
+                <option value="COORD">Coordinador/a de zona</option>
+                <option value="ASE">Asesor/a comercial</option>
+                <option value="ADM">Administrador/a</option>
+              </select>
+              <br />
+              <label for="updateUserEmail">Correo electrónico del usuario:</label>
+              <input
+                id="updateUserEmail"
+                name="updateUseremail"
+                class="form-control"
+                type="email"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <label for="updateUserPassword">Contraseña:</label>
+              <input
+                id="updateUserPassword"
+                name="updateUserPassword"
+                class="form-control"
+                type="password"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <hr />
+              <label for="updateUserIdentification">Identificación:</label>
+              <input
+                id="updateUserIdentification"
+                name="updateUserIdentification"
+                class="form-control"
+                type="number"
+                min="1"
+              />
+              <br />
+              <label for="updateUserAddress">Dirección:</label>
+              <input
+                id="updateUserAddress"
+                name="updateUserAddress"
+                class="form-control"
+                type="text"
+                minlength="6"
+                maxlength="50"
+              />
+              <br />
+              <label for="updateUserCellPhone">Teléfono celular:</label>
+              <input
+                id="updateUserCellPhone"
+                name="updateUserCellPhone"
+                class="form-control"
+                type="tel"
+                pattern="[0-9]{10}"
+              />
+              <br />
+              <label for="updateUserZone">Zona:</label>
+              <input
+                id="updateUserZone"
+                name="updateUserZone"
+                class="form-control"
+                type="text"
+                minlength="1"
+                maxlength="50"
+              />
+              <br />
+              <br />
+              <div class="d-grid gap-1">
+                <button
+                  class="btn btn-warning"
+                  type="submit"
+                  id="updateUserSubmitButton"
+                >
+                  ACTUALIZAR USUARIO
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">El Cacharrero</a>
@@ -27,20 +161,132 @@
       <br />
       <br />
       <h2>Administrar Usuarios</h2>
+      <br />
       <p>
         Haz clic en el botón "CARGAR USUARIOS" para recargar la tabla de
-        usuarios actualmente registrados en el sistema, la cual también te permite actualizar y eliminar usuarios:
+        usuarios actualmente registrados en el sistema, la cual también te
+        permite actualizar y eliminar usuarios:
       </p>
       <div class="d-grid gap-1">
-        <button id="loadUsersButton" type="button" class="btn btn-success">CARGAR USUARIOS</button>
+        <button id="loadUsersButton" type="button" class="btn btn-success">
+          CARGAR USUARIOS
+        </button>
       </div>
-      <br/>
-      <div id="usersTableDiv">Había una vez un barco chiquito!</div>
+
+      <br />
+      <div id="usersTableDiv" class="table-responsive"></div>
       <br />
       <hr />
       <br />
-      <h2>Añadir Usuario nuevo</h2>
-      <form class="formulario"></form>
+      <form id="newUserForm" class="formulario">
+        <h2>Añadir Usuario Nuevo</h2>
+        <br />
+        <label for="newUserId">ID:</label>
+        <input
+          id="newUserId"
+          name="newUserId"
+          class="form-control"
+          type="number"
+          min="1"
+          max="1000"
+          required
+        />
+        <br />
+        <label for="newUserName">Nombre del usuario:</label>
+        <input
+          id="newUserName"
+          name="newUserName"
+          class="form-control"
+          type="text"
+          minlength="3"
+          maxlength="80"
+          required
+        />
+        <br />
+        <label for="newUserType">Tipo de usuario:</label>
+        <select
+          id="newUserType"
+          name="newUserType"
+          class="form-select"
+          required
+        >
+          <option selected disabled>Selecciona el tipo de usuario</option>
+          <option value="COORD">Coordinador/a de zona</option>
+          <option value="ASE">Asesor/a comercial</option>
+          <option value="ADM">Administrador/a</option>
+        </select>
+        <br />
+        <label for="newUserEmail">Correo electrónico del usuario:</label>
+        <input
+          id="newUserEmail"
+          name="newUseremail"
+          class="form-control"
+          type="email"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <br />
+        <label for="newUserPassword">Contraseña:</label>
+        <input
+          id="newUserPassword"
+          name="newUserPassword"
+          class="form-control"
+          type="password"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <hr />
+        <label for="newUserIdentification">Identificación:</label>
+        <input
+          id="newUserIdentification"
+          name="newUserIdentification"
+          class="form-control"
+          type="number"
+          min="1"
+        />
+        <br />
+        <label for="newUserAddress">Dirección:</label>
+        <input
+          id="newUserAddress"
+          name="newUserAddress"
+          class="form-control"
+          type="text"
+          minlength="6"
+          maxlength="50"
+        />
+        <br />
+        <label for="newUserCellPhone">Teléfono celular:</label>
+        <input
+          id="newUserCellPhone"
+          name="newUserCellPhone"
+          class="form-control"
+          type="tel"
+          pattern="[0-9]{10}"
+        />
+        <br />
+        <label for="newUserZone">Zona:</label>
+        <input
+          id="newUserZone"
+          name="newUserZone"
+          class="form-control"
+          type="text"
+          minlength="1"
+          maxlength="50"
+        />
+        <br />
+        <br />
+        <div class="d-grid gap-1">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            id="newUserSubmitButton"
+          >
+            REGISTRAR USUARIO
+          </button>
+        </div>
+      </form>
     </main>
 
     <script
@@ -48,6 +294,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script src="admin-users-app.js"></script>
+    <script type="module" src="admin-users-app.js"></script>
   </body>
 </html>

@@ -102,14 +102,11 @@ public class CloneServices
     
     public Boolean deleteCloneById(Integer id)
     {
-        Optional<Clone> cloneExists = repository.getCloneById(id);
-
-        if (cloneExists.isPresent())
+        if ( repository.getCloneById(id).isPresent() )
         {
-            repository.deleteClone(cloneExists.get());
+            repository.deleteCloneById(id);
             return true;
         }
-
         return false;
     }
     

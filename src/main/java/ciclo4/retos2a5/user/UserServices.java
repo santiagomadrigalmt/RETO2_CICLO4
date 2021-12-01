@@ -150,11 +150,9 @@ public class UserServices {
 
     public Boolean deleteUserById(Integer id)
     {
-        Optional<User> userExists = repository.getUserById(id);
-
-        if (userExists.isPresent())
+        if ( repository.getUserById(id).isPresent() )
         {
-            repository.deleteUser(userExists.get());
+            repository.deleteUserById(id);
             return true;
         }
         return false;
