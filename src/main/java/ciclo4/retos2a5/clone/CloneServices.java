@@ -59,7 +59,7 @@ public class CloneServices
     /**
      *
      * @author smadr
-     * @param user
+     * @param clone
      * @return
      */
     public Clone updateClone(Clone clone)
@@ -73,8 +73,8 @@ public class CloneServices
                 if (clone.getBrand() != null) {
                     cloneExists.get().setBrand(clone.getBrand());
                 }
-                if (clone.getProcessor() != null) {
-                    cloneExists.get().setProcessor(clone.getProcessor());
+                if (clone.getProcesor() != null) {
+                    cloneExists.get().setProcesor(clone.getProcesor());
                 }
                 if (clone.getOs() != null) {
                     cloneExists.get().setOs(clone.getOs());

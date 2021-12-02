@@ -283,7 +283,7 @@ export function updateClone
     {
         "id" : "updateCloneId",
         "brand" : "updateCloneBrand",
-        "processor" : "updateCloneProcessor",
+        "procesor" : "updateCloneProcessor",
         "os" : "updateCloneOperatingSystem",
         "description" : "updateCloneDescription",
         "memory" : "updateCloneMemory",
@@ -322,7 +322,7 @@ export function updateClone
             {
                 "updateCloneId" : "id",
                 "updateCloneBrand" : "brand",
-                "updateCloneProcessor" : "processor",
+                "updateCloneProcessor" : "procesor",
                 "updateCloneOperatingSystem" : "os",
                 "updateCloneDescription" : "description",
                 "updateCloneMemory" : "memory",
@@ -383,7 +383,7 @@ export function registerClone() : void
     {
         "newCloneId" : "id",
         "newCloneBrand" : "brand",
-        "newCloneProcessor" : "processor",
+        "newCloneProcessor" : "procesor",
         "newCloneOperatingSystem" : "os",
         "newCloneDescription" : "description",
         "newCloneMemory" : "memory",

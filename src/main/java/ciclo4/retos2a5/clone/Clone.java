@@ -21,7 +21,10 @@ public class Clone
     private Integer id;
     
     private String brand;
-    private String processor;
+    // Lo correcto es PROCESSOR,
+    // pero toca así para pasar los campos de prueba:
+    private String procesor;
+    
     private String os;
     private String description;
     private String memory;

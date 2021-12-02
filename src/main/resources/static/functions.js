@@ -183,7 +183,7 @@ export function updateClone(baseApiUrl, cloneObject) {
     const propNamesToInputIds = {
         "id": "updateCloneId",
         "brand": "updateCloneBrand",
-        "processor": "updateCloneProcessor",
+        "procesor": "updateCloneProcessor",
         "os": "updateCloneOperatingSystem",
         "description": "updateCloneDescription",
         "memory": "updateCloneMemory",
@@ -212,7 +212,7 @@ export function updateClone(baseApiUrl, cloneObject) {
         const inputIdsToPropNames = {
             "updateCloneId": "id",
             "updateCloneBrand": "brand",
-            "updateCloneProcessor": "processor",
+            "updateCloneProcessor": "procesor",
             "updateCloneOperatingSystem": "os",
             "updateCloneDescription": "description",
             "updateCloneMemory": "memory",
@@ -253,7 +253,7 @@ export function registerClone() {
     const inputIdsToPropNamesDict = {
         "newCloneId": "id",
         "newCloneBrand": "brand",
-        "newCloneProcessor": "processor",
+        "newCloneProcessor": "procesor",
         "newCloneOperatingSystem": "os",
         "newCloneDescription": "description",
         "newCloneMemory": "memory",
