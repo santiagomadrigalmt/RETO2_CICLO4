@@ -24,6 +24,16 @@ public class CloneServices
     {
         return repository.getAllClones();
     }    
+
+    /**
+     *
+     * @author smadr
+     * @param id
+     * @return 
+     */
+    public Optional<Clone> getCloneById(Integer id) {
+        return repository.getCloneById(id);
+    }
     
     /**
      *
@@ -37,15 +47,13 @@ public class CloneServices
         {
             return repository.saveClone(clone);
         }
-        else
+
+        Optional<Clone> cloneExists = repository.getCloneById(clone.getId());
+        if (cloneExists.isEmpty())
         {
-            Optional<Clone> cloneExists = repository.getCloneById(clone.getId());
-            if (cloneExists.isPresent())
-            {
-                return clone;                
-            }
-            return repository.saveClone(clone);
+            return repository.saveClone(clone);                
         }
+        return clone;  
     }
     
     /**

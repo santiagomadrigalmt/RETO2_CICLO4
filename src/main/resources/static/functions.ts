@@ -2,6 +2,9 @@
 // ### FUNCTIONS ###
 // #################
 
+// ###### FUNCTIONS FOR USERS ######
+// NOTE: Try to turn them into general/modular functions
+
 // userLogin(): Carries out the required login authentications:
 export function userLogin(
     apiBaseUrl : string,
@@ -49,7 +52,7 @@ export function userLogin(
                     let adminLinksDiv : HTMLElement | null = document.getElementById(adminLinksDivId);
                     adminLinksDiv.style.display = "block";
                     adminLinksDiv.getElementsByTagName("P")[0].innerHTML
-                    = "<a href='/admin-users.html'>Entra aquí para administrar usuarios</a><br/><br/><a href='#'>Entra aquí para administrar productos.</a>";
+                    = "<a href='/admin-users.html'>Entra aquí para administrar usuarios</a><br/><br/><a href='/admin-clones.html'>Entra aquí para administrar productos.</a>";
                 }  
             }
                         });
@@ -61,29 +64,7 @@ export function userLogin(
     });
 }
 
-// ### DELETE USER ###:
-export function deleteEntry
-(
-    baseApiUrl : string,
-    idEntryToDelete : number
-)
-: void
-{
-    if ( confirm(`¿Estás seguro/a de que deseas borrar la entrada con ID ${idEntryToDelete}?`) )
-    {
-        let fetchProperties : Object
-        = 
-        {
-            method: "DELETE",
-            headers: { "Content-Type" : "application/json"}
-        }
-    
-        fetch( baseApiUrl + "/" + idEntryToDelete, fetchProperties )
-        .then( res => alert("La entrada ha sido eliminada exitosamente. Por favor presiona el botón verde nuevamente para ver los cambios.") );
-    }
-}
-
-// ### UPDATE USER ###:
+// updateUser():
 export function updateUser
 (
     baseApiUrl : string,
@@ -180,18 +161,335 @@ export function updateUser
 
                     fetch( baseApiUrl + "/update", fetchProperties )
                     .then(res => res.json())
-                    .then(data => alert("El usuario ha sido actualizado exitosamente. Puedes hacer clic en el botón verde de cargar para ver los cambios.") );
+                    .then(data => alert("El usuario ha sido actualizado exitosamente. Cierra la ventana emergente, y presiona el botón verde de cargar, para ver los cambios.") );
                 }
             });
         }
     );
 }
 
-// renderEntriesTable: Renders in an HTML table all the data contained in the API being fetched: 
+// registerUser: Once it works, try to make it a general function:
+export function registerUser() : void
+{
+    const inputIdsToPropNamesDict : Object
+    =
+    {
+        "newUserId" : "id",
+        "newUserIdentification" : "identification",
+        "newUserName" : "name",
+        "newUserAddress" : "address",
+        "newUserCellPhone" : "cellPhone",
+        "newUserEmail" : "email",
+        "newUserPassword" : "password",
+        "newUserZone" : "zone",
+        "newUserType" : "type" 
+    };
+
+    // We take both the input and the select elements:
+
+    let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
+    = document.getElementById("newUserForm").getElementsByTagName("input");
+    
+    let allSelectElementsInForm : HTMLCollectionOf<HTMLSelectElement>
+    = document.getElementById("newUserForm").getElementsByTagName("select");
+
+    let objectToUpload : Object
+    = new Object();
+
+    for (let currentInputElement of allInputElementsInForm)
+    {
+        objectToUpload[ inputIdsToPropNamesDict[ currentInputElement.id ] ]
+        = currentInputElement.value;
+    }
+
+    if (allSelectElementsInForm !== null)
+    {
+        for (let currentSelectElement of allSelectElementsInForm)
+        {
+            objectToUpload[ inputIdsToPropNamesDict[ currentSelectElement.id ] ]
+            = currentSelectElement.options[ currentSelectElement.selectedIndex ].value;
+        }
+    }
+
+    // First, verify if an user with that info already exists or not:
+    fetch( "http://localhost:8080/api/user/" + objectToUpload["id"] )
+    .then(res => res.json())
+    .then(
+        function (data)
+        {
+            // If no user has the provided ID, check if any user has the provided email:
+            if (data === null)
+            {
+                fetch( "http://localhost:8080/api/user/emailexist/" + objectToUpload["email"] )
+                .then(res => res.json())
+                .then(
+                    function (data)
+                    {
+                        if ( data )
+                        { 
+                            alert("Ya existe un usuario con el email proveído. Por favor intenta con un email diferente.");
+                        }
+                        else
+                        {
+                            let fetchProperties : Object
+                            = 
+                            {
+                                method: "POST",
+                                headers: { "Content-Type" : "application/json"},
+                                body : JSON.stringify(objectToUpload)
+                            }
+                        
+                            fetch("http://localhost:8080/api/user/new",fetchProperties)
+                            .then(res => res.json())
+                            .then(
+                                function (data)
+                                {
+                                    let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
+                                    = document.getElementById("newUserForm").getElementsByTagName("input");
+
+                                    for (let currentInputElement of allInputElementsInForm)
+                                    {
+                                        currentInputElement.value = "";
+                                    }
+
+                                    alert("El usuario ha sido agregado exitosamente. Puedes hacer clic en el botón verde de cargar para ver los cambios.")
+                                } );
+                        }
+                    }
+                );
+            }
+            else
+            {
+                alert("Ya existe un usuario con el ID proveído. Por favor intenta con un ID diferente.");
+            }
+        }
+    );
+}
+
+
+// ###### FUNCTIONS FOR CLONES / PREBUILTS ######
+// NOTE: Try to turn them into general/modular functions
+
+// updateClone(): WORK IN PROGRESS
+export function updateClone
+(
+    baseApiUrl : string,
+    cloneObject : Object
+)
+: void
+{
+    const propNamesToInputIds : Object
+    =
+    {
+        "id" : "updateCloneId",
+        "brand" : "updateCloneBrand",
+        "processor" : "updateCloneProcessor",
+        "os" : "updateCloneOperatingSystem",
+        "description" : "updateCloneDescription",
+        "memory" : "updateCloneMemory",
+        "hardDrive" : "updateCloneHardDrive",
+        "price" : "updateClonePrice",
+        "quantity" : "updateCloneQuantity",
+        "photography" : "updateClonePhotoUrl",
+        "availability" : "updateCloneAvailability"
+    };
+
+    // Put all data from userObject, except the password, in the modal's input fields:
+    // (No idea how to edit the select elements... but whatever)
+    let propsNamesList : string[] = Object.keys( cloneObject );
+    for (let currentPropName of propsNamesList)
+    {
+        if (currentPropName === "availability")
+        {
+            continue
+        }
+        else
+        {
+            console.log(currentPropName);
+            document.getElementById( propNamesToInputIds[ currentPropName ] ).value = cloneObject[currentPropName];
+        }
+    }
+    
+    document
+    .getElementById("updateCloneForm")
+    .addEventListener(
+        "submit",
+        function (event)
+        {
+            event.preventDefault();
+            const inputIdsToPropNames : Object
+            =
+            {
+                "updateCloneId" : "id",
+                "updateCloneBrand" : "brand",
+                "updateCloneProcessor" : "processor",
+                "updateCloneOperatingSystem" : "os",
+                "updateCloneDescription" : "description",
+                "updateCloneMemory" : "memory",
+                "updateCloneHardDrive" : "hardDrive",
+                "updateClonePrice" : "price",
+                "updateCloneQuantity" : "quantity",
+                "updateClonePhotoUrl" : "photography",
+                "updateCloneAvailability" : "availability"
+            };
+
+            // Build the objectToUpload:
+            let objectToUpload : Object
+            = new Object();
+
+            let inputElementsInForm : HTMLCollectionOf<HTMLInputElement>
+            = document.getElementById("updateCloneForm").getElementsByTagName("input");
+            
+            
+            for (let currentInputElement of inputElementsInForm)
+            {
+                objectToUpload[ inputIdsToPropNames[ currentInputElement.id ] ]
+                = currentInputElement.value;
+            }
+
+            // Get only select element in the cloneForm: Availability
+            let avaElement = document.getElementById("updateCloneAvailability");
+
+            if ( avaElement.options[avaElement.selectedIndex].value === "YES" )
+            {
+                objectToUpload["availability"] = true;
+            }
+            else
+            {
+                objectToUpload["availability"] = false;
+            }
+
+            // Do the PUT fetch:
+            let fetchProperties : Object
+            = 
+            {
+                method: "PUT",
+                headers: { "Content-Type" : "application/json"},
+                body : JSON.stringify(objectToUpload)
+            }
+
+            fetch( baseApiUrl + "/update", fetchProperties )
+            .then(res => res.json())
+            .then(data => alert("El clon ha sido actualizado exitosamente. Cierra la ventana emergente, y presiona el botón verde de cargar para ver los cambios.") );
+        }
+    );
+}
+
+// registerClone():
+export function registerClone() : void
+{
+    const inputIdsToPropNamesDict : Object
+    =
+    {
+        "newCloneId" : "id",
+        "newCloneBrand" : "brand",
+        "newCloneProcessor" : "processor",
+        "newCloneOperatingSystem" : "os",
+        "newCloneDescription" : "description",
+        "newCloneMemory" : "memory",
+        "newCloneHardDrive" : "hardDrive",
+        "newClonePrice" : "price",
+        "newCloneQuantity" : "quantity",
+        "newClonePhotoUrl" : "photography"
+    };
+
+    // We take both the input and the select elements:
+
+    let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
+    = document.getElementById("newCloneForm").getElementsByTagName("input");
+
+    let objectToUpload : Object
+    = new Object();
+
+    for (let currentInputElement of allInputElementsInForm)
+    {
+        objectToUpload[ inputIdsToPropNamesDict[ currentInputElement.id ] ]
+        = currentInputElement.value;
+    }
+
+    // Get only select element in the cloneForm: Availability
+    let availabilityElement = document.getElementById("newCloneAvailability");
+
+    if ( availabilityElement.options[availabilityElement.selectedIndex].value === "YES" )
+    {
+        objectToUpload["availability"] = true;
+    }
+    else
+    {
+        objectToUpload["availability"] = false;
+    }
+
+    // First, verify if a clone with that info already exists or not:
+    fetch( "http://localhost:8080/api/clone/" + objectToUpload["id"] )
+    .then(res => res.json())
+    .then(
+        function (data)
+        {
+            // If there is no Clone with the given ID, register it:
+            if (data === null)
+            {
+                let fetchProperties : Object
+                = 
+                {
+                    method: "POST",
+                    headers: { "Content-Type" : "application/json"},
+                    body : JSON.stringify(objectToUpload)
+                }
+            
+                fetch("http://localhost:8080/api/clone/new",fetchProperties)
+                .then(res => res.json())
+                .then(
+                    function (data)
+                    {
+                        let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
+                        = document.getElementById("newCloneForm").getElementsByTagName("input");
+
+                        for (let currentInputElement of allInputElementsInForm)
+                        {
+                            currentInputElement.value = "";
+                        }
+
+                        alert("El clon ha sido agregado exitosamente. Puedes hacer clic en el botón verde de cargar para ver los cambios.")
+                    } );
+            }
+            else
+            {
+                alert("Ya existe un clon con el ID proveído. Por favor intenta con un ID diferente.");
+            }
+        }
+    );
+}
+
+// ### GENERAL/MODULAR FUNCTIONS ###
+
+// deleteEntry():
+export function deleteEntry
+(
+    baseApiUrl : string,
+    idEntryToDelete : number
+)
+: void
+{
+    if ( confirm(`¿Estás seguro/a de que deseas borrar la entrada con ID ${idEntryToDelete}?`) )
+    {
+        let fetchProperties : Object
+        = 
+        {
+            method: "DELETE",
+            headers: { "Content-Type" : "application/json"}
+        }
+    
+        fetch( baseApiUrl + "/" + idEntryToDelete, fetchProperties )
+        .then( res => alert("La entrada ha sido eliminada exitosamente. Por favor presiona nuevamente el botón verde que dice 'CARGAR' para ver los cambios.") );
+    }
+}
+
+// renderEntriesTable(): Renders in an HTML table all the data contained in the API being fetched: 
 export function renderEntriesTable
 (
     baseApiUrl : string,
-    entriesHtmlTableDivId : string
+    entriesHtmlTableDivId : string,
+    updateEntryFunction : Function
 )
 : void
 {
@@ -289,7 +587,7 @@ export function renderEntriesTable
             htmlCurrentButton.innerHTML = "Actualizar";
             htmlCurrentButton.addEventListener(
                 "click",
-                () => updateUser( baseApiUrl, currentEntry )
+                () => updateEntryFunction( baseApiUrl, currentEntry )
             )
             htmlTableCurrentCell.appendChild(htmlCurrentButton);
             htmlTableCurrentRow.appendChild(htmlTableCurrentCell);
@@ -315,103 +613,4 @@ export function renderEntriesTable
         // Load the table HTML code in the <div> with the "entriesHtmlTableDivId":
         entriesHtmlTableDiv.appendChild(htmlTable);
     } );
-}
-
-// registerUser: Once it works, try to make it a general function:
-export function registerUser() : void
-{
-    const inputIdsToPropNamesDict : Object
-    =
-    {
-        "newUserId" : "id",
-        "newUserIdentification" : "identification",
-        "newUserName" : "name",
-        "newUserAddress" : "address",
-        "newUserCellPhone" : "cellPhone",
-        "newUserEmail" : "email",
-        "newUserPassword" : "password",
-        "newUserZone" : "zone",
-        "newUserType" : "type" 
-    };
-
-    // We take both the input and the select elements:
-
-    let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-    = document.getElementById("newUserForm").getElementsByTagName("input");
-    
-    let allSelectElementsInForm : HTMLCollectionOf<HTMLSelectElement>
-    = document.getElementById("newUserForm").getElementsByTagName("select");
-
-    let objectToUpload : Object
-    = new Object();
-
-    for (let currentInputElement of allInputElementsInForm)
-    {
-        objectToUpload[ inputIdsToPropNamesDict[ currentInputElement.id ] ]
-        = currentInputElement.value;
-    }
-
-    if (allSelectElementsInForm !== null)
-    {
-        for (let currentSelectElement of allSelectElementsInForm)
-        {
-            objectToUpload[ inputIdsToPropNamesDict[ currentSelectElement.id ] ]
-            = currentSelectElement.options[ currentSelectElement.selectedIndex ].value;
-        }
-    }
-
-    // First, verify if an user with that info already exists or not:
-    fetch( "http://localhost:8080/api/user/" + objectToUpload["id"] )
-    .then(res => res.json())
-    .then(
-        function (data)
-        {
-            // If no user has the provided ID, check if any user has the provided email:
-            if (data === null)
-            {
-                fetch( "http://localhost:8080/api/user/emailexist/" + objectToUpload["email"] )
-                .then(res => res.json())
-                .then(
-                    function (data)
-                    {
-                        console.log(data);
-                        if ( data )
-                        { 
-                            alert("Ya existe un usuario con el email proveído. Por favor intenta con un email diferente.");
-                        }
-                        else
-                        {
-                            let fetchProperties : Object
-                            = 
-                            {
-                                method: "POST",
-                                headers: { "Content-Type" : "application/json"},
-                                body : JSON.stringify(objectToUpload)
-                            }
-                        
-                            fetch("http://localhost:8080/api/user/new",fetchProperties)
-                            .then(res => res.json())
-                            .then(
-                                function (data)
-                                {
-                                    let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-                                    = document.getElementById("newUserForm").getElementsByTagName("input");
-
-                                    for (let currentInputElement of allInputElementsInForm)
-                                    {
-                                        currentInputElement.value = "";
-                                    }
-
-                                    alert("El usuario ha sido agregado exitosamente. Puedes hacer clic en el botón verde de cargar para ver los cambios.")
-                                } );
-                        }
-                    }
-                );
-            }
-            else
-            {
-                alert("Ya existe un usuario con el ID proveído. Por favor intenta con un ID diferente.");
-            }
-        }
-    );
 }

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>El Cacharrero - Administración de Clones</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Update Clone Modal -->
+    <div
+      class="modal fade"
+      id="modalContainer"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Actualizar Clon</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="updateCloneForm" class="formulario">
+              <label for="updateCloneId">ID:</label>
+              <input
+                id="updateCloneId"
+                name="updateCloneId"
+                class="form-control"
+                type="number"
+                min="1"
+                max="10000"
+                required
+                disabled
+              />
+              <br />
+              <label for="updateCloneBrand">Marca:</label>
+              <input
+                id="updateCloneBrand"
+                name="updateCloneBrand"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <label for="updateCloneProcessor">Procesador:</label>
+              <input
+                id="updateCloneProcessor"
+                name="updateCloneProcessor"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <label for="updateCloneOperatingSystem">Sistema Operativo:</label>
+              <input
+                id="updateCloneOperatingSystem"
+                name="updateCloneOperatingSystem"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <label for="updateCloneDescription">Descripción:</label>
+              <input
+                id="updateCloneDescription"
+                name="updateCloneDescription"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <label for="updateCloneMemory">Memoria RAM:</label>
+              <input
+                id="updateCloneMemory"
+                name="updateCloneMemory"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <label for="updateCloneHardDrive">Almacenamiento:</label>
+              <input
+                id="updateCloneHardDrive"
+                name="updateCloneHardDrive"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br/>
+              <label for="updateCloneAvailability">Disponibilidad:</label>
+              <select
+                id="updateCloneAvailability"
+                name="updateCloneAvailability"
+                class="form-select"
+                required
+              >
+                <option value="YES">SÍ está disponible</option>
+                <option value="NO">NO está disponible</option>
+              </select>
+              <br />
+              <label for="updateClonePrice">Precio:</label>
+              <input
+                id="updateClonePrice"
+                name="updateClonePrice"
+                class="form-control"
+                type="number"
+                min = 0
+                max = 20000000
+                required
+              />
+              <br />
+              <label for="updateCloneQuantity">Cantidad:</label>
+              <input
+                id="updateCloneQuantity"
+                name="updateCloneQuantity"
+                class="form-control"
+                type="number"
+                min = 0
+                max = 1000000
+                required
+              />
+              <br />
+              <label for="updateClonePhotoUrl">URL con foto del clon:</label>
+              <input
+                id="updateClonePhotoUrl"
+                name="updateClonePhotoUrl"
+                class="form-control"
+                type="text"
+                minlength="3"
+                maxlength="50"
+                required
+              />
+              <br />
+              <br />
+              <div class="d-grid gap-1">
+                <button
+                  class="btn btn-warning"
+                  type="submit"
+                  id="updateCloneSubmitButton"
+                >
+                  ACTUALIZAR CLON
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <img src="CACHARRERO_LOGO.png" height="60px"/>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main id="mainBody" class="container mainBody">
+      <h1>Administración de Clones</h1>
+      <br />
+      <br />
+      <h2>Ver, Actualizar y Eliminar Clones</h2>
+      <br />
+      <p>
+        Haz clic en el botón "CARGAR CLONES" para recargar la tabla de clones actualmente registrados en el sistema. Al final de cada hilera encontrarás un botón para actualizar, y uno para eliminar, el respectivo clon.
+      </p>
+      <div class="d-grid gap-1">
+        <button id="loadClonesButton" type="button" class="btn btn-success">
+          CARGAR CLONES
+        </button>
+      </div>
+
+      <br />
+      <div id="clonesTableDiv" class="table-responsive"></div>
+      <br />
+      <hr />
+      <br />
+      <form id="newCloneForm" class="formulario">
+        <h2>Añadir Clon Nuevo</h2>
+        <br />
+        <label for="newCloneId">ID:</label>
+        <input
+          id="newCloneId"
+          name="newCloneId"
+          class="form-control"
+          type="number"
+          min="1"
+          max="10000"
+          required
+        />
+        <br />
+        <label for="newCloneBrand">Marca:</label>
+        <input
+          id="newCloneBrand"
+          name="newCloneBrand"
+          class="form-control"
+          type="text"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <br />
+        <label for="newCloneProcessor">Procesador:</label>
+        <input
+          id="newCloneProcessor"
+          name="newCloneProcessor"
+          class="form-control"
+          type="text"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <br />
+        <label for="newCloneOperatingSystem">Sistema Operativo:</label>
+        <input
+          id="newCloneOperatingSystem"
+          name="newCloneOperatingSystem"
+          class="form-control"
+          type="text"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <br />
+        <label for="newCloneDescription">Descripción:</label>
+        <input
+          id="newCloneDescription"
+          name="newCloneDescription"
+          class="form-control"
+          type="text"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <br />
+        <label for="newCloneMemory">Memoria RAM:</label>
+        <input
+          id="newCloneMemory"
+          name="newCloneMemory"
+          class="form-control"
+          type="text"
+          minlength="1"
+          maxlength="50"
+          required
+        />
+        <br />
+        <label for="newCloneHardDrive">Almacenamiento:</label>
+        <input
+          id="newCloneHardDrive"
+          name="newCloneHardDrive"
+          class="form-control"
+          type="text"
+          minlength="1"
+          maxlength="50"
+          required
+        />
+        <br/>
+        <label for="newCloneAvailability">Disponibilidad:</label>
+        <select
+          id="newCloneAvailability"
+          name="newCloneAvailability"
+          class="form-select"
+          required
+        >
+          <option value="YES">SÍ está disponible</option>
+          <option value="NO">NO está disponible</option>
+        </select>
+        <br />
+        <label for="newClonePrice">Precio:</label>
+        <input
+          id="newClonePrice"
+          name="newClonePrice"
+          class="form-control"
+          type="number"
+          min = 0
+          max = 20000000
+          required
+        />
+        <br />
+        <label for="newCloneQuantity">Cantidad:</label>
+        <input
+          id="newCloneQuantity"
+          name="newCloneQuantity"
+          class="form-control"
+          type="number"
+          min = 0
+          max = 1000000
+          required
+        />
+        <br />
+        <label for="newClonePhotoUrl">URL con foto del clon:</label>
+        <input
+          id="newClonePhotoUrl"
+          name="newClonePhotoUrl"
+          class="form-control"
+          type="text"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+        <br />
+        <br />
+        <div class="d-grid gap-1">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            id="newCloneSubmitButton"
+          >
+            REGISTRAR CLON
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="admin-clones-app.js"></script>
+  </body>
+</html>

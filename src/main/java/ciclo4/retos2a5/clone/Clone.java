@@ -14,6 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "clone")
 public class Clone
 {
+    // 1. Todos los campos son obligatorios
+    // 2. description: No más de 80 caracteres
+    // 3. photography: Just an URL
     @Id
     private Integer id;
     

@@ -68,7 +68,6 @@
                 class="form-select"
                 required
               >
-                <option selected disabled>Selecciona el tipo de usuario</option>
                 <option value="COORD">Coordinador/a de zona</option>
                 <option value="ASE">Asesor/a comercial</option>
                 <option value="ADM">Administrador/a</option>
@@ -152,7 +151,9 @@
 
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">El Cacharrero</a>
+        <a class="navbar-brand" href="index.html">
+          <img src="CACHARRERO_LOGO.png" height="60px"/>
+        </a>
       </div>
     </nav>
 
@@ -160,12 +161,10 @@
       <h1>Administración de Usuarios</h1>
       <br />
       <br />
-      <h2>Administrar Usuarios</h2>
+      <h2>Ver, Actualizar y Eliminar Usuarios</h2>
       <br />
       <p>
-        Haz clic en el botón "CARGAR USUARIOS" para recargar la tabla de
-        usuarios actualmente registrados en el sistema, la cual también te
-        permite actualizar y eliminar usuarios:
+        Haz clic en el botón "CARGAR USUARIOS" para recargar la tabla de usuarios actualmente registrados en el sistema. Al final de cada hilera encontrarás un botón para actualizar, y uno para eliminar, el respectivo usuario.
       </p>
       <div class="d-grid gap-1">
         <button id="loadUsersButton" type="button" class="btn btn-success">
@@ -210,7 +209,6 @@
           class="form-select"
           required
         >
-          <option selected disabled>Selecciona el tipo de usuario</option>
           <option value="COORD">Coordinador/a de zona</option>
           <option value="ASE">Asesor/a comercial</option>
           <option value="ADM">Administrador/a</option>
