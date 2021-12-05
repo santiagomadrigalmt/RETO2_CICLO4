@@ -64,7 +64,6 @@ public class UserServices {
             return userExists.get();
         }
         
-        // This should return a new user with all the properties as "null"... right?
         return new User();
     }
 
@@ -76,17 +75,24 @@ public class UserServices {
      */
     public User saveUser(User user)
     {
+        Optional<User> userIdMax = repository.lastUserId();
+        
         if (user.getId() == null)
         {
-            return repository.saveUser(user);
+            if (userIdMax.isEmpty()) user.setId(1);
+            else user.setId( userIdMax.get().getId() + 1 );
         }
-
+        
         Optional<User> userExists = repository.getUserById(user.getId());
-        if (userExists.isEmpty())
+        if ( userExists.isEmpty() )
         {
-            return repository.saveUser(user);
+            if ( !doesUserEmailExist(user.getEmail()) )
+            {
+                return repository.saveUser(user);
+            }
+            return user;
         }
-        return user;
+        return user;        
     }
 
     /**
@@ -109,16 +115,12 @@ public class UserServices {
                 if (user.getName() != null) {
                     userExist.get().setName(user.getName());
                 }
-                
-                /*
-                if (user.getBirthDay() != null) {
-                    userExist.get().setBirthDay(user.getBirthDay());
+                if (user.getBirthtDay() != null) {
+                    userExist.get().setBirthtDay(user.getBirthtDay());
                 }
-                if (user.getMonthBirthDay() != null) {
-                    userExist.get().setMonthBirthDay(user.getMonthBirthDay());
-                }
-                */
-                
+                if (user.getMonthBirthtDay() != null) {
+                    userExist.get().setMonthBirthtDay(user.getMonthBirthtDay());
+                }      
                 if (user.getAddress() != null) {
                     userExist.get().setAddress(user.getAddress());
                 }
@@ -148,6 +150,12 @@ public class UserServices {
         }
     }
 
+    /**
+     *
+     * @author smadr
+     * @param id
+     * @return
+     */
     public Boolean deleteUserById(Integer id)
     {
         if ( repository.getUserById(id).isPresent() )

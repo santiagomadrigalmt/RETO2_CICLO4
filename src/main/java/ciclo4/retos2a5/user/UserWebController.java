@@ -22,7 +22,7 @@ public class UserWebController
     @Autowired
     private UserServices services;
     
-    // ### GET REQUESTS ###
+    // ########## GET REQUESTS ##########
     
     /**
      * GET Method getUsers
@@ -73,6 +73,8 @@ public class UserWebController
     }
     
     
+    // ########## POST REQUESTS ##########
+    
     /**
      * POST Method saveUser
      * @author Santiago M. / Mintic
@@ -86,6 +88,9 @@ public class UserWebController
         return services.saveUser(user);
     }
     
+    
+    // ########## PUT REQUESTS ##########
+    
     /**
      * PUT Method updateUser
      * @author Santiago M. / Mintic
@@ -98,6 +103,9 @@ public class UserWebController
     {
         return services.updateUser(user);
     }
+    
+    
+    // ########## DELETE REQUESTS ##########
     
     /**
      * DELETE Method deleteUser

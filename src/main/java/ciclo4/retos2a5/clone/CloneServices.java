@@ -43,18 +43,22 @@ public class CloneServices
      */
     public Clone saveClone(Clone clone)
     {
+        Optional<Clone> cloneIdMax = repository.lastCloneId();
+        
         if (clone.getId() == null)
+        {
+            if (cloneIdMax.isEmpty()) clone.setId(1);
+            else clone.setId( cloneIdMax.get().getId() + 1 );
+        }
+        
+        Optional<Clone> cloneExists = repository.getCloneById(clone.getId());
+        if ( cloneExists.isEmpty() )
         {
             return repository.saveClone(clone);
         }
-
-        Optional<Clone> cloneExists = repository.getCloneById(clone.getId());
-        if (cloneExists.isEmpty())
-        {
-            return repository.saveClone(clone);                
-        }
-        return clone;  
+        return clone;
     }
+
     
     /**
      *
@@ -117,5 +121,7 @@ public class CloneServices
         }
         return false;
     }
+    
+    
     
 }

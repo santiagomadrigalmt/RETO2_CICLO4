@@ -1,5 +1,6 @@
 package ciclo4.retos2a5.user;
 
+import java.util.Date;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,8 +20,8 @@ public class User
    
     private String identification;
     private String name;
-    // private Date birthDay;
-    // private String monthBirthDay;
+    private Date birthtDay;
+    private String monthBirthtDay;
     private String address;
     private String cellPhone;
     private String email;

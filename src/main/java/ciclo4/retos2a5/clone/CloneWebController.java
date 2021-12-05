@@ -22,7 +22,8 @@ public class CloneWebController
     @Autowired
     private CloneServices services;
     
-    // ### GETS ###
+    
+    // ########## GET REQUESTS ##########
     
     /**
      * GET Method getAllClones
@@ -47,6 +48,8 @@ public class CloneWebController
         return services.getCloneById(cloneId);
     }
     
+
+    // ########## POST REQUESTS ##########
     
     /**
      * POST Method saveClone
@@ -60,6 +63,9 @@ public class CloneWebController
     {
         return services.saveClone(clone);
     }
+
+
+    // ########## PUT REQUESTS ##########
     
     /**
      * PUT Method updateClone

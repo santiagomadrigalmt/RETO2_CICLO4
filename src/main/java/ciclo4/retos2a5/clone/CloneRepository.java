@@ -63,5 +63,15 @@ public class CloneRepository
     {
        repositoryInterface.deleteById(id);
     }     
+ 
     
+    /**
+    * 
+    * 
+     * @return 
+    */     
+    public Optional<Clone> lastCloneId()
+    {
+        return repositoryInterface.findTopByOrderByIdDesc();
+    }    
 }

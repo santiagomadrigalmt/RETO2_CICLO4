@@ -106,5 +106,15 @@ public class UserRepository
     { 
         repositoryInterface.deleteById(id);
     }
+
+    /**
+    * 
+    * 
+     * @return 
+    */   
+    public Optional<User> lastUserId()
+    {
+        return repositoryInterface.findTopByOrderByIdDesc();
+    }
     
 }
