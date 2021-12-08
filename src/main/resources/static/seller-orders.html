@@ -16,41 +16,6 @@
   </head>
 
   <body>
-    <!--Modal showing profile information when loggin in-->
-    <div
-      id="loginModal"
-      class="modal fade"
-      tabindex="-1"
-      aria-labelledby="loginModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 id="loginModalTitle" class="modal-title" id="loginModalLabe">
-              Atención
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div id="loginModalBody" class="modal-body"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!--Navigation bar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
@@ -131,43 +96,9 @@
     </nav>
 
     <main id="mainBody" class="container mainBody">
-      <h1>Iniciar Sesión</h1>
+      <h1>Realizar Orden</h1>
       <br />
-      <form id="loginForm" class="formulario">
-        <label for="emailLogin" class="form-label"
-          >Correo electrónico del usuario:</label
-        >
-        <input
-          id="emailLogin"
-          class="form-control"
-          type="email"
-          name="emailLogin"
-          maxlength="50"
-          placeholder="usuario@email.com"
-          required
-        />
-        <br />
-        <label for="passwordLogin" class="form-label">Contraseña:</label><br />
-        <input
-          id="passwordLogin"
-          class="form-control"
-          type="password"
-          name="passwordLogin"
-          maxlength="50"
-          required
-        />
-        <br />
-        <br />
-        <div class="d-grid gap-1">
-          <button class="btn btn-primary" type="submit" id="submitButtonLogin">
-            INGRESAR
-          </button>
-        </div>
-        <br/>
-        <br/>
-        <p><b>NOTA:</b> Al regresar a esta página de Inicio de Sesión serás deslogueado automáticamente.</p>
-      </form>
-      <br />
+      <p>Esta página está en construcción.</p>
     </main>
 
     <script
@@ -175,6 +106,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="index-app.js"></script>
+    <script type="module" src="seller-orders-app.js"></script>
   </body>
 </html>

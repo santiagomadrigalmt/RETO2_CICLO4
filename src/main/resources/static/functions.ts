@@ -2,6 +2,27 @@
 // ### FUNCTIONS ###
 // #################
 
+
+// ###### UTILITY FUNCTIONS ######
+
+// renderLoginModal(): Assigns the corresponding text content in the loginModal and shows it:
+function renderLoginModal(
+    modalTitle : string,
+    modalBody : string
+)
+: void
+{
+    document.getElementById("loginModalTitle")!.innerHTML
+    = modalTitle;
+    
+    document.getElementById("loginModalBody")!.innerHTML = "";
+    document.getElementById("loginModalBody")!.innerHTML = modalBody;
+
+    let myModal = new bootstrap.Modal(document.getElementById("loginModal"), {});
+    myModal.show();
+}
+
+
 // ###### FUNCTIONS FOR USERS ######
 // NOTE: Try to turn them into general/modular functions
 
@@ -9,8 +30,7 @@
 export function userLogin(
     apiBaseUrl : string,
     userEmail : string,
-    userPassword : string,
-    adminLinksDivId : string)
+    userPassword : string)
     : void
 {   
     let apiVerifyEmailUrl : string = `${apiBaseUrl}/emailexist/${userEmail}`;
@@ -27,39 +47,79 @@ export function userLogin(
         fetch(apiVerifyEmailPasswordUrl)
         .then( response => response.json() )
         .then( data => {
-            
             if (data.email === null && data.password === null)
             {
-                alert("La contraseña es INCORRECTA. Por favor intenta de nuevo con una contraseña diferente.");
+                renderLoginModal(
+                    "&#x274C; ¡Atención!",
+                    "La contraseña es INCORRECTA. Por favor intenta de nuevo con una contraseña diferente."
+                );               
             }
             else
             {
-                let typesDict : Object = {
-                        "COORD" : "coordinador/a",
-                        "ASE" : "asesor/a",
-                        "ADM" : "administrador/a"
+                let propsToSpanishNames : Object
+                =
+                {
+                    "identification" : "Identificación",
+                    "name" : "Nombre",
+                    "email" : "E-mail",
+                    "type" : "Perfil de usuario",
+                    "zone" : "Zona"
                 };
 
-                if (data.type === "COORD" || data.type === "ASE")
+                let typesToSpanishNames : Object
+                = 
                 {
-                    alert(`La contraseña es CORRECTA. Bienvenido/a ${typesDict[data.type]} ${data.name}.`);
-                }
-                else if(data.type === "ADM")
-                {
-                    alert(`La contraseña es CORRECTA. Bienvenido/a ${typesDict[data.type]} ${data.name}. A continuación encontrará los enlaces hacia la página de Administración de Usuarios, y Administración de Productos.`);
+                    "COORD" : "Coordinador/a",
+                    "ASE" : "Asesor/a",
+                    "ADM" : "Administrador/a"
+                };
+                
+                let userInfoHtmlTable : HTMLElement = document.createElement("table");
+                userInfoHtmlTable.setAttribute("width","100%");
 
-                    // If an admin logs in, show links to pages where they can manage users and products:
-                    let adminLinksDiv : HTMLElement | null = document.getElementById(adminLinksDivId);
-                    adminLinksDiv.style.display = "block";
-                    adminLinksDiv.getElementsByTagName("P")[0].innerHTML
-                    = "<a href='/admin-users.html'>Entra aquí para administrar usuarios</a><br/><br/><a href='/admin-clones.html'>Entra aquí para administrar productos.</a>";
-                }  
+                let htmlTableCurrentRow : HTMLElement, 
+                htmlTableCurrentCellAttributeName : HTMLElement,
+                htmlTableCurrentCellAttributeValue : HTMLElement;
+
+                for (let currentProp in propsToSpanishNames )
+                {
+                    htmlTableCurrentRow = document.createElement("tr");        
+                    htmlTableCurrentCellAttributeName = document.createElement("td");
+                    htmlTableCurrentCellAttributeName.innerHTML = `<b>${ propsToSpanishNames[currentProp] }:</b>`;
+                    htmlTableCurrentCellAttributeValue = document.createElement("td");
+                    
+                    if ( currentProp === "type" )
+                    {
+                        htmlTableCurrentCellAttributeValue.innerHTML = typesToSpanishNames[ data["type"] ];
+                    }
+                    else
+                    {
+                        htmlTableCurrentCellAttributeValue.innerHTML = data[currentProp];
+                    }   
+
+                    htmlTableCurrentRow.appendChild( htmlTableCurrentCellAttributeName );
+                    htmlTableCurrentRow.appendChild( htmlTableCurrentCellAttributeValue );
+                    userInfoHtmlTable.appendChild( htmlTableCurrentRow );
+                }
+                
+                document.getElementById("loginModalTitle")!.innerHTML = "&#9989; Inicio de sesión exitoso";    
+                document.getElementById("loginModalBody")!.innerHTML = "";  
+                document.getElementById("loginModalBody")!.appendChild(userInfoHtmlTable);
+                let myModal = new bootstrap.Modal(document.getElementById("loginModal"), {});
+                myModal.show();
+
+                // Aquí meter lo de mostrar/quitar enlaces dependiendo del tipo de usuario logueado:
+                window.localStorage.setItem( "loggedIn", "true" );
+                window.localStorage.setItem( "userType", data["type"] );
             }
-                        });
+            });
         }
         else
         {
-            alert("El email ingresado NO está registrado. Por favor intenta de nuevo con un email diferente.");
+            renderLoginModal(
+                "&#x274C; ¡Atención!",
+                "El email ingresado NO está registrado. Por favor intenta de nuevo con un email diferente."
+            );
         }
     });
 }
@@ -92,12 +152,12 @@ export function updateUser
     let propsNamesList : string[] = Object.keys( userObject );
     for (let currentPropName of propsNamesList)
     {
-        document.getElementById( propNamesToInputIds[ currentPropName ] ).value
+        document.getElementById( propNamesToInputIds[ currentPropName ] )!.value
         = userObject[currentPropName];
     }
 
     document
-    .getElementById("updateUserForm")
+    .getElementById("updateUserForm")!
     .addEventListener(
         "submit",
         function (event)
@@ -122,10 +182,10 @@ export function updateUser
             = new Object();
 
             let inputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-            = document.getElementById("updateUserForm").getElementsByTagName("input");
+            = document.getElementById("updateUserForm")!.getElementsByTagName("input");
             
             let selectElementsInForm : HTMLCollectionOf<HTMLSelectElement>
-            = document.getElementById("updateUserForm").getElementsByTagName("select");
+            = document.getElementById("updateUserForm")!.getElementsByTagName("select");
             
             for (let currentInputElement of inputElementsInForm)
             {
@@ -188,10 +248,10 @@ export function registerUser() : void
     // We take both the input and the select elements:
 
     let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-    = document.getElementById("newUserForm").getElementsByTagName("input");
+    = document.getElementById("newUserForm")!.getElementsByTagName("input");
     
     let allSelectElementsInForm : HTMLCollectionOf<HTMLSelectElement>
-    = document.getElementById("newUserForm").getElementsByTagName("select");
+    = document.getElementById("newUserForm")!.getElementsByTagName("select");
 
     let objectToUpload : Object
     = new Object();
@@ -245,7 +305,7 @@ export function registerUser() : void
                                 function (data)
                                 {
                                     let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-                                    = document.getElementById("newUserForm").getElementsByTagName("input");
+                                    = document.getElementById("newUserForm")!.getElementsByTagName("input");
 
                                     for (let currentInputElement of allInputElementsInForm)
                                     {
@@ -306,12 +366,12 @@ export function updateClone
         else
         {
             console.log(currentPropName);
-            document.getElementById( propNamesToInputIds[ currentPropName ] ).value = cloneObject[currentPropName];
+            document.getElementById( propNamesToInputIds[ currentPropName ] )!.value = cloneObject[currentPropName];
         }
     }
     
     document
-    .getElementById("updateCloneForm")
+    .getElementById("updateCloneForm")!
     .addEventListener(
         "submit",
         function (event)
@@ -338,7 +398,7 @@ export function updateClone
             = new Object();
 
             let inputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-            = document.getElementById("updateCloneForm").getElementsByTagName("input");
+            = document.getElementById("updateCloneForm")!.getElementsByTagName("input");
             
             
             for (let currentInputElement of inputElementsInForm)
@@ -396,7 +456,7 @@ export function registerClone() : void
     // We take both the input and the select elements:
 
     let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-    = document.getElementById("newCloneForm").getElementsByTagName("input");
+    = document.getElementById("newCloneForm")!.getElementsByTagName("input");
 
     let objectToUpload : Object
     = new Object();
@@ -442,7 +502,7 @@ export function registerClone() : void
                     function (data)
                     {
                         let allInputElementsInForm : HTMLCollectionOf<HTMLInputElement>
-                        = document.getElementById("newCloneForm").getElementsByTagName("input");
+                        = document.getElementById("newCloneForm")!.getElementsByTagName("input");
 
                         for (let currentInputElement of allInputElementsInForm)
                         {
@@ -460,7 +520,8 @@ export function registerClone() : void
     );
 }
 
-// ### GENERAL/MODULAR FUNCTIONS ###
+
+// ###### GENERAL/MODULAR FUNCTIONS ######
 
 // deleteEntry():
 export function deleteEntry
@@ -611,6 +672,6 @@ export function renderEntriesTable
         htmlTable.appendChild(htmlTableBody);
 
         // Load the table HTML code in the <div> with the "entriesHtmlTableDivId":
-        entriesHtmlTableDiv.appendChild(htmlTable);
+        entriesHtmlTableDiv!.appendChild(htmlTable);
     } );
 }

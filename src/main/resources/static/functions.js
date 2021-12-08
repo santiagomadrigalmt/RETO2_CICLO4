@@ -1,10 +1,20 @@
 // #################
 // ### FUNCTIONS ###
 // #################
+// ###### UTILITY FUNCTIONS ######
+// renderLoginModal(): Assigns the corresponding text content in the loginModal and shows it:
+function renderLoginModal(modalTitle, modalBody) {
+    document.getElementById("loginModalTitle").innerHTML
+        = modalTitle;
+    document.getElementById("loginModalBody").innerHTML = "";
+    document.getElementById("loginModalBody").innerHTML = modalBody;
+    let myModal = new bootstrap.Modal(document.getElementById("loginModal"), {});
+    myModal.show();
+}
 // ###### FUNCTIONS FOR USERS ######
 // NOTE: Try to turn them into general/modular functions
 // userLogin(): Carries out the required login authentications:
-export function userLogin(apiBaseUrl, userEmail, userPassword, adminLinksDivId) {
+export function userLogin(apiBaseUrl, userEmail, userPassword) {
     let apiVerifyEmailUrl = `${apiBaseUrl}/emailexist/${userEmail}`;
     let apiVerifyEmailPasswordUrl = `${apiBaseUrl}/${userEmail}/${userPassword}`;
     // I use the FETCH function instead of JQuery's ajax:
@@ -18,30 +28,52 @@ export function userLogin(apiBaseUrl, userEmail, userPassword, adminLinksDivId) 
                 .then(response => response.json())
                 .then(data => {
                 if (data.email === null && data.password === null) {
-                    alert("La contraseña es INCORRECTA. Por favor intenta de nuevo con una contraseña diferente.");
+                    renderLoginModal("&#x274C; ¡Atención!", "La contraseña es INCORRECTA. Por favor intenta de nuevo con una contraseña diferente.");
                 }
                 else {
-                    let typesDict = {
-                        "COORD": "coordinador/a",
-                        "ASE": "asesor/a",
-                        "ADM": "administrador/a"
+                    let propsToSpanishNames = {
+                        "identification": "Identificación",
+                        "name": "Nombre",
+                        "email": "E-mail",
+                        "type": "Perfil de usuario",
+                        "zone": "Zona"
                     };
-                    if (data.type === "COORD" || data.type === "ASE") {
-                        alert(`La contraseña es CORRECTA. Bienvenido/a ${typesDict[data.type]} ${data.name}.`);
+                    let typesToSpanishNames = {
+                        "COORD": "Coordinador/a",
+                        "ASE": "Asesor/a",
+                        "ADM": "Administrador/a"
+                    };
+                    let userInfoHtmlTable = document.createElement("table");
+                    userInfoHtmlTable.setAttribute("width", "100%");
+                    let htmlTableCurrentRow, htmlTableCurrentCellAttributeName, htmlTableCurrentCellAttributeValue;
+                    for (let currentProp in propsToSpanishNames) {
+                        htmlTableCurrentRow = document.createElement("tr");
+                        htmlTableCurrentCellAttributeName = document.createElement("td");
+                        htmlTableCurrentCellAttributeName.innerHTML = `<b>${propsToSpanishNames[currentProp]}:</b>`;
+                        htmlTableCurrentCellAttributeValue = document.createElement("td");
+                        if (currentProp === "type") {
+                            htmlTableCurrentCellAttributeValue.innerHTML = typesToSpanishNames[data["type"]];
+                        }
+                        else {
+                            htmlTableCurrentCellAttributeValue.innerHTML = data[currentProp];
+                        }
+                        htmlTableCurrentRow.appendChild(htmlTableCurrentCellAttributeName);
+                        htmlTableCurrentRow.appendChild(htmlTableCurrentCellAttributeValue);
+                        userInfoHtmlTable.appendChild(htmlTableCurrentRow);
                     }
-                    else if (data.type === "ADM") {
-                        alert(`La contraseña es CORRECTA. Bienvenido/a ${typesDict[data.type]} ${data.name}. A continuación encontrará los enlaces hacia la página de Administración de Usuarios, y Administración de Productos.`);
-                        // If an admin logs in, show links to pages where they can manage users and products:
-                        let adminLinksDiv = document.getElementById(adminLinksDivId);
-                        adminLinksDiv.style.display = "block";
-                        adminLinksDiv.getElementsByTagName("P")[0].innerHTML
-                            = "<a href='/admin-users.html'>Entra aquí para administrar usuarios</a><br/><br/><a href='/admin-clones.html'>Entra aquí para administrar productos.</a>";
-                    }
+                    document.getElementById("loginModalTitle").innerHTML = "&#9989; Inicio de sesión exitoso";
+                    document.getElementById("loginModalBody").innerHTML = "";
+                    document.getElementById("loginModalBody").appendChild(userInfoHtmlTable);
+                    let myModal = new bootstrap.Modal(document.getElementById("loginModal"), {});
+                    myModal.show();
+                    // Aquí meter lo de mostrar/quitar enlaces dependiendo del tipo de usuario logueado:
+                    window.localStorage.setItem("loggedIn", "true");
+                    window.localStorage.setItem("userType", data["type"]);
                 }
             });
         }
         else {
-            alert("El email ingresado NO está registrado. Por favor intenta de nuevo con un email diferente.");
+            renderLoginModal("&#x274C; ¡Atención!", "El email ingresado NO está registrado. Por favor intenta de nuevo con un email diferente.");
         }
     });
 }
@@ -303,7 +335,7 @@ export function registerClone() {
         }
     });
 }
-// ### GENERAL/MODULAR FUNCTIONS ###
+// ###### GENERAL/MODULAR FUNCTIONS ######
 // deleteEntry():
 export function deleteEntry(baseApiUrl, idEntryToDelete) {
     if (confirm(`¿Estás seguro/a de que deseas borrar la entrada con ID ${idEntryToDelete}?`)) {
