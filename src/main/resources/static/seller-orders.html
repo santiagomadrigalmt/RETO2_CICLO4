@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>El Cacharrero - Iniciar Sesión</title>
+    <title>El Cacharrero - Realizar Orden</title>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -98,7 +98,36 @@
     <main id="mainBody" class="container mainBody">
       <h1>Realizar Orden</h1>
       <br />
-      <p>Esta página está en construcción.</p>
+      <h2>Clones disponibles:</h2>
+      <div id="clonesTableDiv" class="table-responsive"></div>
+      <br />
+      <br />
+      <h2>Orden actual:</h2>
+      <form id = "orderForm">
+        <div class="table-responsive">
+          <table id="orderTable" class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Quitar?</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <br />
+        <div class="d-grid gap-1">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            id="newOrderSubmitButton"
+          >
+            REGISTRAR ORDEN
+          </button>
+        </div>
+      </form>
+    
     </main>
 
     <script
