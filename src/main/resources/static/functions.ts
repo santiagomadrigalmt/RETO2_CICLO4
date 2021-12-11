@@ -31,6 +31,58 @@ export interface Clone
     photography : string
 }
 
+export class Order
+{
+    private registerDay : Date;
+    private status : string;
+    private salesMan : User;
+    private products : Object;
+    private quantities : Object;
+
+    public constructor
+    (
+        registerDay : Date,
+        salesMan : User
+    )
+    {
+        this.registerDay = registerDay;
+        this.status = "Pendiente";
+        this.salesMan = salesMan;
+
+        this.products = new Object();
+        this.quantities = new Object();
+    }
+
+    public getProducts()
+    : Object
+    {
+        return this.products;
+    }
+
+    public addProduct(cloneToAdd : Clone)
+    : void
+    {
+        this.products[ cloneToAdd["id"].toString() ] = cloneToAdd;
+    }
+
+    public removeProduct(cloneId : number)
+    : void
+    {
+        delete this.products[cloneId];
+    }
+
+    public addQuantitiesObject(quantityObject : Object)
+    :void
+    {
+        this.quantities = quantityObject;
+    }
+
+    public howManyProducts()
+    : number
+    {
+        return Object.keys(this.products).length;
+    }
+}
 
 // #################
 // ### FUNCTIONS ###

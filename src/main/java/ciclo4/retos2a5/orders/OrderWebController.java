@@ -57,7 +57,6 @@ public class OrderWebController
     @GetMapping("/zona/{orderZone:^[a-zA-Z0-9\\s]*$}")
     public List<Order> getOrdersByZone(@PathVariable("orderZone") String orderZone)
     {
-        System.out.println("orderZone = " + orderZone);
         return services.getOrdersByZone(orderZone);
     }
     

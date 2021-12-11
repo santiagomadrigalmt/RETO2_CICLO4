@@ -1,72 +1,7 @@
 // ###############
 // ### IMPORTS ###
 // ###############
-import { User, Clone } from "./functions.js";
-
-// ############################
-// ### INTERFACES / CLASSES ###
-// ############################
-
-class Order
-{
-    private registerDay : Date;
-    private status : string;
-    private salesMan : User;
-    private products : Object;
-    private quantities : Object;
-
-    public constructor
-    (
-        registerDay : Date,
-        salesMan : User
-    )
-    {
-        this.registerDay = registerDay;
-        this.status = "Pendiente";
-        this.salesMan = salesMan;
-
-        this.products = new Object();
-        this.quantities = new Object();
-    }
-
-    public getProducts()
-    : Object
-    {
-        return this.products;
-    }
-
-    public addProduct(cloneToAdd : Clone)
-    : void
-    {
-        this.products[ cloneToAdd["id"].toString() ] = cloneToAdd;
-    }
-
-    public removeProduct(cloneId : number)
-    {
-        delete this.products[cloneId];
-    }
-
-    public addQuantitiesObject(quantityObject : Object)
-    {
-        this.quantities = quantityObject;
-    }
-
-    public addQuantityOfProduct
-    (
-        productId : number,
-        quantity : number
-    )
-    : void
-    {
-        this.quantities[ productId.toString() ] = quantity;
-    }
-
-    public howManyProducts() : number
-    {
-        return Object.keys(this.products).length;
-    }
-
-}
+import { User, Clone, Order } from "./functions.js";
 
 
 // ###############
@@ -351,8 +286,6 @@ window.onload = function() : void
                     
                     globalOrder.addQuantitiesObject(quantitiesObject);
 
-                    console.log(globalOrder);
-
                     let fetchProperties : Object
                     = 
                     {
@@ -371,7 +304,7 @@ window.onload = function() : void
                             .getElementsByTagName("tbody")[0]
                             .innerHTML = "";
 
-                            alert("La orden ha sido agregada exitosamente. Tu coordinador/a de zona la revisará pronto.")
+                            alert("La orden ha sido agregada exitosamente. Tu coordinador/a de zona la revisará pronto.");
                         } );
                 }
             );
@@ -379,4 +312,3 @@ window.onload = function() : void
     }
     
 }
-

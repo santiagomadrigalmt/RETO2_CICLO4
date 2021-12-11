@@ -1,3 +1,27 @@
+export class Order {
+    constructor(registerDay, salesMan) {
+        this.registerDay = registerDay;
+        this.status = "Pendiente";
+        this.salesMan = salesMan;
+        this.products = new Object();
+        this.quantities = new Object();
+    }
+    getProducts() {
+        return this.products;
+    }
+    addProduct(cloneToAdd) {
+        this.products[cloneToAdd["id"].toString()] = cloneToAdd;
+    }
+    removeProduct(cloneId) {
+        delete this.products[cloneId];
+    }
+    addQuantitiesObject(quantityObject) {
+        this.quantities = quantityObject;
+    }
+    howManyProducts() {
+        return Object.keys(this.products).length;
+    }
+}
 // #################
 // ### FUNCTIONS ###
 // #################

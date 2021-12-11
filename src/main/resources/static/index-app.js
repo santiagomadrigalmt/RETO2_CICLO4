@@ -45,6 +45,7 @@ function userLogin(apiBaseUrl, userEmail, userPassword) {
                         "ASE": "Asesor/a",
                         "ADM": "Administrador/a"
                     };
+                    // Create table with the user info. This table will go in the modal:
                     let userInfoHtmlTable = document.createElement("table");
                     userInfoHtmlTable.setAttribute("width", "100%");
                     let htmlTableCurrentRow, htmlTableCurrentCellAttributeName, htmlTableCurrentCellAttributeValue;

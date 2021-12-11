@@ -74,6 +74,7 @@ function userLogin(
                     "ADM" : "Administrador/a"
                 };
                 
+                // Create table with the user info. This table will go in the modal:
                 let userInfoHtmlTable : HTMLElement = document.createElement("table");
                 userInfoHtmlTable.setAttribute("width","100%");
 

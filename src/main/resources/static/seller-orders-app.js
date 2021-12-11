@@ -1,33 +1,7 @@
-// ############################
-// ### INTERFACES / CLASSES ###
-// ############################
-class Order {
-    constructor(registerDay, salesMan) {
-        this.registerDay = registerDay;
-        this.status = "Pendiente";
-        this.salesMan = salesMan;
-        this.products = new Object();
-        this.quantities = new Object();
-    }
-    getProducts() {
-        return this.products;
-    }
-    addProduct(cloneToAdd) {
-        this.products[cloneToAdd["id"].toString()] = cloneToAdd;
-    }
-    removeProduct(cloneId) {
-        delete this.products[cloneId];
-    }
-    addQuantitiesObject(quantityObject) {
-        this.quantities = quantityObject;
-    }
-    addQuantityOfProduct(productId, quantity) {
-        this.quantities[productId.toString()] = quantity;
-    }
-    howManyProducts() {
-        return Object.keys(this.products).length;
-    }
-}
+// ###############
+// ### IMPORTS ###
+// ###############
+import { Order } from "./functions.js";
 // ###############
 // ### GLOBALS ###
 // ###############
@@ -64,7 +38,7 @@ function renderOrderTable() {
             currentInputElement.setAttribute("cloneId", currentClone["id"].toString());
             currentInputElement.className = "form-control";
             currentInputElement.type = "number";
-            currentInputElement.min = "0";
+            currentInputElement.min = "1";
             currentInputElement.max = currentClone["quantity"].toString();
             currentInputElement.value = "1";
             currentInputElement.required = true;
@@ -214,7 +188,6 @@ window.onload = function () {
                         = currentInput.value;
                 }
                 globalOrder.addQuantitiesObject(quantitiesObject);
-                console.log(globalOrder);
                 let fetchProperties = {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -233,4 +206,3 @@ window.onload = function () {
         }
     }
 };
-export {};

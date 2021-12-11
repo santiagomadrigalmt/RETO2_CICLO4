@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>El Cacharrero - Iniciar Sesión</title>
+    <title>El Cacharrero - Administrar Órdenes</title>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,40 +16,40 @@
   </head>
 
   <body>
-    <!--Modal showing profile information when loggin in-->
-    <div
-      id="loginModal"
-      class="modal fade"
-      tabindex="-1"
-      aria-labelledby="loginModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 id="loginModalTitle" class="modal-title" id="loginModalLabe">
-              Atención
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div id="loginModalBody" class="modal-body"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
+        <!--Modal for showing More Info about an order-->
+        <div
+        id="orderMoreInfoModal"
+        class="modal fade"
+        tabindex="-1"
+        aria-labelledby="orderMoreInfoModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="orderMoreInfoModalTitle" class="modal-title" id="orderMoreInfoModalLabe">
+                Productos
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div id="orderMoreInfoModalBody" class="modal-body"></div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
     <!--Navigation bar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -122,7 +122,7 @@
                 class="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuCOORD"
               >
-                <li><a class="dropdown-item" href="coordinator-orders.html">Administrar Órdenes</a></li>
+              <li><a class="dropdown-item" href="coordinator-orders.html">Administrar Órdenes</a></li>
               </ul>
             </li>
           </ul>
@@ -131,43 +131,29 @@
     </nav>
 
     <main id="mainBody" class="container mainBody">
-      <h1>Iniciar Sesión</h1>
+      <h1>Administrar Órdenes</h1>
       <br />
-      <form id="loginForm" class="formulario">
-        <label for="emailLogin" class="form-label"
-          >Correo electrónico del usuario:</label
-        >
-        <input
-          id="emailLogin"
-          class="form-control"
-          type="email"
-          name="emailLogin"
-          maxlength="50"
-          placeholder="usuario@email.com"
-          required
-        />
-        <br />
-        <label for="passwordLogin" class="form-label">Contraseña:</label><br />
-        <input
-          id="passwordLogin"
-          class="form-control"
-          type="password"
-          name="passwordLogin"
-          maxlength="50"
-          required
-        />
-        <br />
-        <br />
-        <div class="d-grid gap-1">
-          <button class="btn btn-primary" type="submit" id="submitButtonLogin">
-            INGRESAR
-          </button>
-        </div>
-        <br/>
-        <br/>
-        <p><b>NOTA:</b> Cada vez que recargues esta página de Inicio de Sesión serás deslogueado automáticamente.</p>
-      </form>
-      <br />
+
+      <h2>Ver órdenes</h2>
+      <br/>
+      <div class="table-responsive">
+        <table id="ordersTable" class="table table-striped table-dark">
+            <thead>
+                <tr>
+                  <th>Código de Orden / ID</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Día de registro</th>
+                  <th>Estado</th>
+                  <th>Más Info</th>
+                  <th>Aprovar</th>
+                  <th>Rechazar</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+        </table>
+      </div>
+    
     </main>
 
     <script
@@ -175,6 +161,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="index-app.js"></script>
+    <script type="module" src="coordinator-orders-app.js"></script>
   </body>
 </html>
