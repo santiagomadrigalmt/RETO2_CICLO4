@@ -142,6 +142,23 @@ public class OrderServices
      public List<Order> getOrderByStatus(String status)
      {
          return repository.getOrderByStatus(status);
-     }  
+     }
+     
+    //Métodos del reto 4
+    //Reto 4: Ordenes de un asesor
+    public List<Order> ordersSalesManByID(Integer id)
+    {
+        return repository.ordersSalesManByID(id);
+    }
+    //Reto 4: Ordenes de un asesor x Estado
+    public List<Order> ordersSalesManByState(String state, Integer id)
+    {
+        return repository.ordersSalesManByState(state, id);
+    }
+    //Reto 4: Ordenes de un asesor x fecha
+    public List<Order> ordersSalesManByDate(String dateStr, Integer id)
+    {
+        return repository.ordersSalesManByDate(dateStr,id);
+    }     
     
 }

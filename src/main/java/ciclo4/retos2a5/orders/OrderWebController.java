@@ -133,6 +133,29 @@ public class OrderWebController
     public Boolean deleteOrderById(@PathVariable("id") Integer orderId)
     {
         return services.deleteOrderById(orderId);
-    }    
+    }
+    
+    
+    //Métodos del reto 4
+    //Reto 4: Ordenes de un asesor
+    @GetMapping("/salesman/{id}")
+    public List<Order> ordersSalesManByID(@PathVariable("id") Integer id)
+    {
+        return services.ordersSalesManByID(id);
+    }
+    
+    //Reto 4: Ordenes de un asesor x Estado
+    @GetMapping("/state/{state}/{id}")
+    public List<Order> ordersSalesManByState(@PathVariable("state") String state, @PathVariable("id") Integer id)
+    {
+        return services.ordersSalesManByState(state, id);
+    }
+    
+    //Reto 4: Ordenes de un asesor x fecha
+    @GetMapping("/date/{date}/{id}")
+    public List<Order> ordersSalesManByDate(@PathVariable("date") String dateStr, @PathVariable("id") Integer id)
+    {
+        return services.ordersSalesManByDate(dateStr,id);
+    }
     
 }
