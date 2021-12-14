@@ -48,6 +48,30 @@ public class CloneWebController
         return services.getCloneById(cloneId);
     }
     
+    /**
+     * GET Method getClonesByPrice - RETO 5
+     * @author Santiago M. / Mintic
+     * @param price
+     * @return All clones which have the provided price
+     * */
+    @GetMapping("price/{price}")
+    public List<Clone> getClonesByPrice(@PathVariable("price") Double price)
+    {
+        return services.getClonesByPrice(price);
+    }
+    
+    /**
+     * GET Method getClonesByPrice - RETO 5
+     * @author Santiago M. / Mintic
+     * @param price
+     * @return All clones which have the provided price
+     * */
+    @GetMapping("description/{chunk}")
+    public List<Clone> getClonesByDescriptionLike(@PathVariable("chunk") String chunk)
+    {
+        return services.getClonesByDescriptionLike(chunk);
+    }
+    
 
     // ########## POST REQUESTS ##########
     

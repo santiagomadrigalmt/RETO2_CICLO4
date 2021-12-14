@@ -15,6 +15,9 @@ public interface UserRepositoryInterface extends MongoRepository<User,Integer>
     public List<User> findByNameOrEmail(String name, String email);
     public Optional<User> findByEmailAndPassword(String email, String password);
     
+    // Functionality 3 - RETO 5:
+    public List<User> findByMonthBirthtDay(String monthString);
+    
     // Para seleccionar el usuario con el ID máximo:
     public Optional<User> findTopByOrderByIdDesc();
 }

@@ -6,19 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- *
- * @author smadr
+ * Class UserRepository
+ * @author Santiago M. / Mintic
  */
 @Repository
 public class UserRepository
 {
-
+    /**
+     * Attribute UserRepositoryInterface repositoryInterface
+     * @author Santiago M. / Mintic
+     */
     @Autowired
     private UserRepositoryInterface repositoryInterface;
 
     /**
-    * 
-    * @return 
+    * getAllUsers()
+    * @return List of all users
     */
     public List<User> getAllUsers()
     {
@@ -26,9 +29,9 @@ public class UserRepository
     }
 
     /**
-     * 
+     * saveUser(User user)
      * @param user
-     * @return 
+     * @return Info about operation
      */
     public User saveUser(User user)
     {
@@ -36,9 +39,9 @@ public class UserRepository
     }
 
     /**
-    * 
+    * getUserByName(String name)
     * @param name
-    * @return 
+    * @return User by name
     */ 
     public Optional<User> getUserByName(String name)
     {
@@ -46,9 +49,9 @@ public class UserRepository
     }
 
     /**
-    * 
+    * getUserByEmail(String email)
     * @param email
-    * @return 
+    * @return User by email
     */
     public Optional<User> getUserByEmail(String email)
     {
@@ -56,10 +59,10 @@ public class UserRepository
     }
 
     /**
-    * 
+    * getUsersByNameOrEmail(String name, String email)
     * @param name
     * @param email
-    * @return 
+    * @return User by name or email
     */
     public List<User> getUsersByNameOrEmail(String name, String email)
     {
@@ -67,10 +70,10 @@ public class UserRepository
     }
 
     /**
-    * 
+    * getUserByEmailAndPassword(String email, String password)
     * @param email
     * @param password
-    * @return 
+    * @return User by email and password
     */
     public Optional<User> getUserByEmailAndPassword(String email, String password)
     {
@@ -78,17 +81,17 @@ public class UserRepository
     }
    
     /**
-    * 
-    * @param id
-    * @return 
+    * getUserById(Integer userId)
+    * @param userId
+    * @return User by userId
     */
-    public Optional<User> getUserById(Integer id)
+    public Optional<User> getUserById(Integer userId)
     {
-        return repositoryInterface.findById(id);
+        return repositoryInterface.findById(userId);
     }
     
     /**
-    * 
+    * deleteUser(User user)
     * @param user
     * 
     */
@@ -98,23 +101,31 @@ public class UserRepository
     }
     
     /**
-    * 
-    * 
-     * @param id
+    * deleteUserById(Integer userId)
+    * @param userId
     */    
-    public void deleteUserById(Integer id)
+    public void deleteUserById(Integer userId)
     { 
-        repositoryInterface.deleteById(id);
+        repositoryInterface.deleteById(userId);
     }
 
     /**
-    * 
-    * 
-     * @return 
+    * lastUserId()
+    * @return 
     */   
     public Optional<User> lastUserId()
     {
         return repositoryInterface.findTopByOrderByIdDesc();
+    }
+    
+    /**
+    * deleteUserById(Integer userId)
+    * @param monthString
+    * @return Users by monthBirthtDay
+    */ 
+    public List<User> getUsersByBirthdayMonth(String monthString)
+    {
+        return repositoryInterface.findByMonthBirthtDay(monthString);
     }
     
 }

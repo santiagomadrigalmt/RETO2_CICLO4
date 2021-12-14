@@ -71,7 +71,18 @@ public class UserWebController
     {
         return services.getUserByEmailAndPassword(email,password);
     }
-    
+
+    /** 
+     * GET Method getUserByEmailAndPassword
+     * @author Santiago M. / Mintic
+     * @param monthString
+     * @return The user with the corresponding email and password, OR a dummy user with all NULL attributes.
+     */
+    @GetMapping("birthday/{monthString}")
+    public List<User> getUsersByBirthdayMonth(@PathVariable("monthString") String monthString)
+    {
+        return services.getUsersByBirthdayMonth(monthString);
+    }
     
     // ########## POST REQUESTS ##########
     

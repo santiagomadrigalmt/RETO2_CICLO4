@@ -122,6 +122,18 @@ public class CloneServices
         return false;
     }
     
+    // FUNCTIONALITY 1 - RETO 5:
+    public List<Clone> getClonesByPrice(Double price)
+    {
+        return repository.getClonesByPrice(price);
+    }
+    
+    // Functionality 2 RETO_5:
+    public List<Clone> getClonesByDescriptionLike(String chunk)
+    {
+        return repository.getClonesByDescriptionLike(chunk);
+    }
+    
     
     
 }

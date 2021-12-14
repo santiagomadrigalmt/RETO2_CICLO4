@@ -3,6 +3,9 @@ package ciclo4.retos2a5.clone;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -73,5 +76,18 @@ public class CloneRepository
     public Optional<Clone> lastCloneId()
     {
         return repositoryInterface.findTopByOrderByIdDesc();
-    }    
+    }
+    
+    // Functionality 1 RETO_5:
+    public List<Clone> getClonesByPrice(Double price)
+    {
+        return repositoryInterface.findByPrice(price);
+    }
+    
+    // Functionality 2 RETO_5:
+    public List<Clone> getClonesByDescriptionLike(String chunk)
+    {
+        return repositoryInterface.findByDescriptionLike(chunk);
+    }
+    
 }

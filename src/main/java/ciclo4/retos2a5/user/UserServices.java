@@ -31,11 +31,11 @@ public class UserServices {
     /**
      *
      * @author smadr
-     * @param id
+     * @param userId
      * @return 
      */
-    public Optional<User> getUserById(Integer id) {
-        return repository.getUserById(id);
+    public Optional<User> getUserById(Integer userId) {
+        return repository.getUserById(userId);
     }
 
     /**
@@ -79,8 +79,14 @@ public class UserServices {
         
         if (user.getId() == null)
         {
-            if (userIdMax.isEmpty()) user.setId(1);
-            else user.setId( userIdMax.get().getId() + 1 );
+            if (userIdMax.isEmpty())
+            {
+                user.setId(1);
+            }
+            else
+            {
+                user.setId( userIdMax.get().getId() + 1 );
+            }
         }
         
         Optional<User> userExists = repository.getUserById(user.getId());
@@ -153,17 +159,23 @@ public class UserServices {
     /**
      *
      * @author smadr
-     * @param id
+     * @param userId
      * @return
      */
-    public Boolean deleteUserById(Integer id)
+    public Boolean deleteUserById(Integer userId)
     {
-        if ( repository.getUserById(id).isPresent() )
+        if ( repository.getUserById(userId).isPresent() )
         {
-            repository.deleteUserById(id);
+            repository.deleteUserById(userId);
             return true;
         }
         return false;
+    }
+    
+    // FUNCTIONALITY - RETO 5:
+    public List<User> getUsersByBirthdayMonth(String monthString)
+    {
+        return repository.getUsersByBirthdayMonth(monthString);
     }
 
 }
